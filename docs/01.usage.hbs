@@ -1,0 +1,9 @@
+## Usage
+
+```javascript
+const AmjsApiOpenApiReader = require('@amjs/api-openapi-reader');
+
+const reader = new AmjsApiOpenApiReader('api-spec-path.yaml');
+const output = reader.read().parse();
+console.log(output); // { collections: [], items: [], paths: [] }
+```

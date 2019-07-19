@@ -1,0 +1,102 @@
+openapi: "3.0.0"
+info:
+    version: 0.1.0
+    title: @amjs/api-openapi-reader test api file
+    description: Example API spec file using OpenAPI@3.0.0
+basePath: '/api'
+paths:
+    '/collections':
+        get:
+            description: Returns an array of items
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Collection'
+        post:
+            description: Creates a new item
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Item'
+
+    '/collections/{id}':
+        get:
+            description: Returns the detail of an item
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Item'
+        put:
+            description: Modifies an item
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Item'
+        patch:
+            description: Edits a property of the item
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Item'
+        delete:
+            description: Deletes an item
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+components:
+    schemas:
+        Collection:
+            type: array
+            items:
+                $ref: '#/components/schemas/Item'
+        Item:
+            properties:
+                text:
+                    type: string
+                bool:
+                    type: boolean
+                num:
+                    type: integer
+                date:
+                    type: date
+                values:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ItemValues'
+        ItemValues:
+            properties:
+                order:
+                    type: integer
+                values:
+                    type: array

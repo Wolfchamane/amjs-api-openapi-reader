@@ -1,0 +1,49 @@
+{
+    "name": "@amjs/api-openapi-reader",
+    "version": "0.1.0",
+    "description": "Reads an OpenAPI spec file and returns the whole extracted info",
+    "author": "Arturo Martínez Díaz <arturo.mart.diaz@gmail.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:Wolfchamane/amjs-api-openapi-reader.git"
+    },
+    "keywords": [
+        "nodejs",
+        "reader",
+        "parser",
+        "open-api",
+        "api"
+    ],
+    "main": "index.js",
+    "dependencies": {
+        "@amjs/utils": "^0.1.0",
+        "yaml": "^1.6.0"
+    },
+    "devDependencies": {
+        "@amjs/create-readme": "^0.1.0",
+        "@babel/core": "^7.4.5",
+        "@babel/preset-env": "^7.4.5",
+        "@babel/register": "^7.4.4",
+        "@istanbuljs/nyc-config-babel": "^2.1.1",
+        "babel-eslint": "^10.0.2",
+        "babel-plugin-istanbul": "^5.1.4",
+        "eslint": "^6.0.1",
+        "nyc": "^14.1.1",
+        "prettier": "^1.18.2"
+    },
+    "lint-staged": {
+        "*.js": [
+            "prettier --config .prettierrc --write",
+            "eslint --fix --config .eslintrc.yml --ext .mjs",
+            "git add"
+        ]
+    },
+    "scripts": {
+        "format": "prettier --config .prettierrc --write 'src/**/*.m?js'",
+        "lint": "eslint --fix --config .eslintrc.yml --ext .js src tests",
+        "precommit": "lint-staged",
+        "test": "NODE_ENV=testing nyc node tests/index.js",
+        "doc": "node node_modules/@amjs/create-readme --d docs"
+    }
+}
