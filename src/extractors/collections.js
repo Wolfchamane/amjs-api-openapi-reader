@@ -1,5 +1,10 @@
 const { dotProp } = require('@amjs/utils');
 
+/**
+ * Extracts all the collections items schemas from api file.
+ * @param   {Object}    api API Json object
+ * @return  {Array}     Map of collections schemas
+ */
 module.exports = (api = {}) =>
 {
     const collections = [];

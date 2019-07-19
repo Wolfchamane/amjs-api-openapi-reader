@@ -1,7 +1,56 @@
 const { dotProp, capitalize, camelize } = require('@amjs/utils');
 
 /* istanbul ignore next */
-const pathExtractor = (collection = [], url = '', config = {}, parent) =>
+/**
+ * Extracts the unique params required by the path endpoint
+ * @param   {Object}    context Path method configuration
+ * @param   {Array}     params  Collection of mapped endpoint params
+ */
+const extractMethodParams = (context = {}, params = []) =>
+{
+    context.parameters.forEach(
+        param =>
+        {
+            const name = dotProp(param, 'name');
+            if (!params.find(item => item.name === name))
+            {
+                params.push({
+                    name,
+                    type        : capitalize(dotProp(param, 'schema.type')),
+                    required    : !!param.required
+                });
+            }
+        }
+    )
+};
+
+/* istanbul ignore next */
+/**
+ * Extracts all info from a path method
+ * @param   {String}    method  Path method
+ * @param   {Object}    item    Path configuration
+ * @param   {Object}    models  Associated return models from path method, for ORM purposes
+ * @param   {Array}     params  Params associated with path endpoint
+ */
+const extractMethodInfo = (method = '', item = {}, models = {}, params = []) =>
+{
+    const context = item[method];
+    models[method] = dotProp(context, 'responses.200.content.application/json.schema.$ref');
+    if (context.parameters)
+    {
+        extractMethodParams(context, params);
+    }
+};
+
+/* istanbul ignore next */
+/**
+ * Extracts all the info from a single api path
+ * @param   {Array}     collection  Map of parsed API paths
+ * @param   {*}         url         Path endpoint
+ * @param   {Object}    item        Path configuration
+ * @param   {*}         parent      Parent path related with path endpoint
+ */
+const pathExtractor = (collection = [], url = '', item = {}, parent) =>
 {
     if (url.lastIndexOf('{') === -1 || parent)
     {
@@ -12,53 +61,34 @@ const pathExtractor = (collection = [], url = '', config = {}, parent) =>
             .filter(item => !!item)
             .join('-')));
 
-        const allowedMethods = Object.keys(config);
+        const allowedMethods = Object.keys(item);
         const models = {};
         const params = [];
-        allowedMethods.forEach(
-            method =>
-            {
-                const methodContext = config[method];
-                models[method] = dotProp(methodContext, 'responses.200.content.application/json.schema.$ref');
-                if (methodContext.parameters)
-                {
-                    methodContext.parameters.forEach(
-                        param =>
-                        {
-                            const name = dotProp(param, 'name');
-                            if (!params.find(item => item.name === name))
-                            {
-                                params.push({
-                                    name,
-                                    type        : capitalize(dotProp(param, 'schema.type')),
-                                    required    : !!param.required
-                                });
-                            }
-                        }
-                    )
-                }
-            }
-        );
 
-        const service = {
+        allowedMethods.forEach(method => extractMethodInfo(method, item, models, params));
+
+        collection.push({
             allowedMethods,
             id,
             models,
             params,
             parent,
             url
-        };
-
-        collection.push(service);
+        });
     }
 
     if (url.lastIndexOf('{') !== -1 && !parent)
     {
         url = url.trim().split('/').filter(item => !!item);
-        pathExtractor(collection, `/${url.join('/')}`, config, url[0]);
+        pathExtractor(collection, `/${url.join('/')}`, item, url[0]);
     }
 };
 
+/**
+ * Extracts all paths info from API file
+ * @param   {Object}    api API Json object
+ * @return  {Array}     Map of parsed paths
+ */
 module.exports = (api = {}) =>
 {
     const _paths = [];

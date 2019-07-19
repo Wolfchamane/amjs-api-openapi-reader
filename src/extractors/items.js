@@ -1,5 +1,11 @@
 const { capitalize, dotProp } = require('@amjs/utils');
 
+/* istanbul ignore next */
+/**
+ * Updates relationships between items in collection, flagging which one is parent
+ * @param   {Array} collection  Map of parsed items
+ * @param   {Array} relations   Relations between objects
+ */
 const updateItemsRelations = (collection = [], relations = []) =>
 {
     relations.filter(rel => !!rel).forEach(
@@ -20,6 +26,14 @@ const updateItemsRelations = (collection = [], relations = []) =>
 
 };
 
+/* istanbul ignore next */
+/**
+ * Extracts all the information from a single item and adds mapped info into collection
+ * @param   {Array}     collection  Collection of parsed items
+ * @param   {String}    id          Unique identifier of the item
+ * @param   {Object}    item        Item to be parsed
+ * @return  {*}         Parent configuration of parsed item, to be updated later
+ */
 const itemExtractor = (collection = [], id = '', item = {}) =>
 {
     let parent = null;
@@ -57,6 +71,11 @@ const itemExtractor = (collection = [], id = '', item = {}) =>
     return parent;
 };
 
+/**
+ * Extracts all the item schemas info from api file.
+ * @param   {Object}    api API Json object
+ * @return  {Array}     Map of items
+ */
 module.exports = (api = {}) =>
 {
     const items = [];

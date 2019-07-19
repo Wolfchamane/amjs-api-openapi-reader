@@ -6,7 +6,7 @@ const yaml  = require('yaml');
  * @namespace   amjs.api.openApi
  * @class       amjs.api.openApi.Reader
  */
-class AmjsApiOpenApiReader
+module.exports = class AmjsApiOpenApiReader
 {
     /**
      * @constructor
@@ -41,6 +41,10 @@ class AmjsApiOpenApiReader
         return this;
     }
 
+    /**
+     * Parses YAML file and extracts all api information
+     * @return {Object} Extracted information
+     */
     parse()
     {
         const collections   = this.collections  = require('./extractors/collections')(this.yamlObject);
@@ -52,6 +56,11 @@ class AmjsApiOpenApiReader
         return { collections, items, paths };
     }
 
+    /**
+     * Removes all self references to file contents
+     * @param   {Object}    ref Item to clean
+     * @private
+     */
     _removeSelfReferences(ref = {})
     {
         const pattern = /^#\/components\/schemas\//;
@@ -78,6 +87,4 @@ class AmjsApiOpenApiReader
 
         return ref;
     }
-}
-
-module.exports = AmjsApiOpenApiReader;
+};
