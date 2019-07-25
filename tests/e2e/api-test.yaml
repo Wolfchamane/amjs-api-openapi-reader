@@ -100,3 +100,10 @@ components:
                     type: integer
                 values:
                     type: array
+                type:
+                    type: '#/components/schemas/ItemValuesType'
+        ItemValuesType:
+            properties:
+                type:
+                    type: string
+

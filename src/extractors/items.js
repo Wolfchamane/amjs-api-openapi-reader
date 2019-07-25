@@ -1,4 +1,4 @@
-const { capitalize, dotProp } = require('@amjs/utils');
+const { capitalize, dotProp, decamelize } = require('@amjs/utils');
 
 /* istanbul ignore next */
 /**
@@ -17,7 +17,7 @@ const updateItemsRelations = (collection = [], relations = []) =>
                     const pattern = `#/components/schemas/${item.id}`;
                     if (pattern === relation.to)
                     {
-                        item.parent = relation.from.toLowerCase();
+                        item.parent = decamelize(relation.from.trim(), '/');
                     }
                 }
             );
@@ -54,6 +54,15 @@ const itemExtractor = (collection = [], id = '', item = {}) =>
                         from : id,
                         to: type
                     };
+                }
+                else if (/#\/components\/schemas\//.test(type))
+                {
+                    parent = {
+                        from : id,
+                        to   : type
+                    };
+
+                    type = type.replace(/#\/components\/schemas\//, '');
                 }
 
                 type = capitalize(type);
