@@ -4,4 +4,4 @@
  * @version 0.1.0
  * @author  Arturo Martínez Díaz <arturo.mart.diaz@gmail.com>
  */
-module.exports = require('./src/reader');
+module.exports = require('./src/Reader');

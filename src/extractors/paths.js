@@ -86,20 +86,11 @@ const pathExtractor = (collection = [], url = '', item = {}, parent) =>
 
 /**
  * Extracts all paths info from API file
- * @param   {Object}    api API Json object
- * @return  {Array}     Map of parsed paths
  */
-module.exports = (api = {}) =>
+module.exports = (paths = {}) =>
 {
     const _paths = [];
-    const basePath = (api && api.basePath) || '';
-    const paths = api && api.paths;
-
-    if (paths)
-    {
-        Object.keys(paths).forEach(key => pathExtractor(_paths, key, paths[key]));
-        _paths.forEach(service => service.url = `${basePath}${service.url}`);
-    }
+    Object.keys(paths).forEach(key => pathExtractor(_paths, key, paths[key]));
 
     return _paths;
 };
