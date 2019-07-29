@@ -1,6 +1,6 @@
 {
     "name": "@amjs/api-openapi-reader",
-    "version": "RC-0.2.0",
+    "version": "0.2.0-RC",
     "description": "Reads an OpenAPI spec file and returns the whole extracted info",
     "author": "Arturo Martínez Díaz <arturo.mart.diaz@gmail.com>",
     "license": "MIT",
