@@ -23,9 +23,10 @@ module.exports = (id = '', item = {}) =>
                         type = dotProp(property, 'items.$ref');
                     }
 
+                    type = type.replace('#/components/schemas/', '');
+
                     if (!requirements.includes(type))
                     {
-
                         requirements.push(type);
                     }
                 }
@@ -33,6 +34,8 @@ module.exports = (id = '', item = {}) =>
                 return { name, type, isCollection };
             }
         );
+
+    requirements.sort();
 
     return { id, properties, requirements };
 };
