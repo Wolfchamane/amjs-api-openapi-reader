@@ -95,13 +95,9 @@ components:
                     items:
                         $ref: '#/components/schemas/ItemValues'
         ItemValues:
-            properties:
-                order:
-                    type: integer
-                values:
-                    type: array
-                type:
-                    type: '#/components/schemas/ItemValuesType'
+            type: array
+            items:
+                $ref: '#/components/schemas/ItemValuesType'
         ItemValuesType:
             properties:
                 type:

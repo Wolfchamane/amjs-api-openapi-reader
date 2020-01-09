@@ -1,5 +1,5 @@
 const { equal, throws } = require('assert');
-const OpenApiReader     = require('../../src/reader');
+const OpenApiReader     = require('../../src/Reader');
 const path              = require('path');
 const apiTestFile       = path.resolve(__dirname, 'api-test.yaml');
 
@@ -36,12 +36,6 @@ const before = source => new OpenApiReader(source);
 {
     const sut = before(apiTestFile);
     const { collections, items, paths } = sut.read().parse();
-    equal(sut.collections !== null, true,
-        '@amjs/api-openapi-reader > parse > instance collections > Is not "null" after parse()');
-    equal(sut.items !== null, true,
-        '@amjs/api-openapi-reader > parse > instance items > Is not "null" after parse()');
-    equal(sut.paths !== null, true,
-        '@amjs/api-openapi-reader > parse > instance paths > Is not "null" after parse()');
     equal(collections !== null, true,
         '@amjs/api-openapi-reader > parse > collections > Is not "null" after parse()');
     equal(items !== null, true,
